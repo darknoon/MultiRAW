@@ -8,11 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		4903808724D61DC900F289BC /* MultiRAWApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4903808624D61DC900F289BC /* MultiRAWApp.swift */; };
-		4903808924D61DC900F289BC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4903808824D61DC900F289BC /* ContentView.swift */; };
+		4903808924D61DC900F289BC /* CaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4903808824D61DC900F289BC /* CaptureView.swift */; };
 		4903808B24D61DCA00F289BC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4903808A24D61DCA00F289BC /* Assets.xcassets */; };
 		4903808E24D61DCA00F289BC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4903808D24D61DCA00F289BC /* Preview Assets.xcassets */; };
 		4903809924D61DCA00F289BC /* MultiRAWTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4903809824D61DCA00F289BC /* MultiRAWTests.swift */; };
 		490380A424D61DCA00F289BC /* MultiRAWUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490380A324D61DCA00F289BC /* MultiRAWUITests.swift */; };
+		490380B224D61DEC00F289BC /* Capture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490380B124D61DEC00F289BC /* Capture.swift */; };
+		490380B424D6357B00F289BC /* Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490380B324D6357B00F289BC /* Preview.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,7 +37,7 @@
 /* Begin PBXFileReference section */
 		4903808324D61DC900F289BC /* MultiRAW.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MultiRAW.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4903808624D61DC900F289BC /* MultiRAWApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiRAWApp.swift; sourceTree = "<group>"; };
-		4903808824D61DC900F289BC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		4903808824D61DC900F289BC /* CaptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureView.swift; sourceTree = "<group>"; };
 		4903808A24D61DCA00F289BC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4903808D24D61DCA00F289BC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		4903808F24D61DCA00F289BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -45,6 +47,8 @@
 		4903809F24D61DCA00F289BC /* MultiRAWUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MultiRAWUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		490380A324D61DCA00F289BC /* MultiRAWUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiRAWUITests.swift; sourceTree = "<group>"; };
 		490380A524D61DCA00F289BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		490380B124D61DEC00F289BC /* Capture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Capture.swift; sourceTree = "<group>"; };
+		490380B324D6357B00F289BC /* Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preview.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,7 +100,9 @@
 			isa = PBXGroup;
 			children = (
 				4903808624D61DC900F289BC /* MultiRAWApp.swift */,
-				4903808824D61DC900F289BC /* ContentView.swift */,
+				4903808824D61DC900F289BC /* CaptureView.swift */,
+				490380B124D61DEC00F289BC /* Capture.swift */,
+				490380B324D6357B00F289BC /* Preview.swift */,
 				4903808A24D61DCA00F289BC /* Assets.xcassets */,
 				4903808F24D61DCA00F289BC /* Info.plist */,
 				4903808C24D61DCA00F289BC /* Preview Content */,
@@ -259,7 +265,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4903808924D61DC900F289BC /* ContentView.swift in Sources */,
+				490380B224D61DEC00F289BC /* Capture.swift in Sources */,
+				4903808924D61DC900F289BC /* CaptureView.swift in Sources */,
+				490380B424D6357B00F289BC /* Preview.swift in Sources */,
 				4903808724D61DC900F289BC /* MultiRAWApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -419,7 +427,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"MultiRAW/Preview Content\"";
-				DEVELOPMENT_TEAM = DDE4G723AJ;
+				DEVELOPMENT_TEAM = 6H6GQ2FPBM;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = MultiRAW/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -441,7 +449,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"MultiRAW/Preview Content\"";
-				DEVELOPMENT_TEAM = DDE4G723AJ;
+				DEVELOPMENT_TEAM = 6H6GQ2FPBM;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = MultiRAW/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;

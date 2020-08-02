@@ -11,7 +11,8 @@ import SwiftUI
 struct MultiRAWApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            CaptureView()
+                .colorScheme(.dark)
         }
     }
 }

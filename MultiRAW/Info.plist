@@ -46,5 +46,11 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>AVCam uses the camera to take photos and video.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>AVCam uses the microphone to record sound during Live Photos and movies.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>AVCam saves captured photos and videos to your photo library.</string>
 </dict>
 </plist>
