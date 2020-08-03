@@ -13,8 +13,10 @@
 		4903808E24D61DCA00F289BC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4903808D24D61DCA00F289BC /* Preview Assets.xcassets */; };
 		4903809924D61DCA00F289BC /* MultiRAWTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4903809824D61DCA00F289BC /* MultiRAWTests.swift */; };
 		490380A424D61DCA00F289BC /* MultiRAWUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490380A324D61DCA00F289BC /* MultiRAWUITests.swift */; };
-		490380B224D61DEC00F289BC /* Capture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490380B124D61DEC00F289BC /* Capture.swift */; };
-		490380B424D6357B00F289BC /* Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490380B324D6357B00F289BC /* Preview.swift */; };
+		490380B224D61DEC00F289BC /* CaptureController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490380B124D61DEC00F289BC /* CaptureController.swift */; };
+		490380B424D6357B00F289BC /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 490380B324D6357B00F289BC /* PreviewView.swift */; };
+		4974069024D6724300C9D907 /* Review.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4974068F24D6724300C9D907 /* Review.swift */; };
+		4974069224D71BEB00C9D907 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4974069124D71BEB00C9D907 /* Utils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,8 +49,10 @@
 		4903809F24D61DCA00F289BC /* MultiRAWUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MultiRAWUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		490380A324D61DCA00F289BC /* MultiRAWUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiRAWUITests.swift; sourceTree = "<group>"; };
 		490380A524D61DCA00F289BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		490380B124D61DEC00F289BC /* Capture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Capture.swift; sourceTree = "<group>"; };
-		490380B324D6357B00F289BC /* Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preview.swift; sourceTree = "<group>"; };
+		490380B124D61DEC00F289BC /* CaptureController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureController.swift; sourceTree = "<group>"; };
+		490380B324D6357B00F289BC /* PreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
+		4974068F24D6724300C9D907 /* Review.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Review.swift; sourceTree = "<group>"; };
+		4974069124D71BEB00C9D907 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,8 +105,10 @@
 			children = (
 				4903808624D61DC900F289BC /* MultiRAWApp.swift */,
 				4903808824D61DC900F289BC /* CaptureView.swift */,
-				490380B124D61DEC00F289BC /* Capture.swift */,
-				490380B324D6357B00F289BC /* Preview.swift */,
+				4974068F24D6724300C9D907 /* Review.swift */,
+				490380B124D61DEC00F289BC /* CaptureController.swift */,
+				4974069424D74C7A00C9D907 /* Capture */,
+				4974069324D74C6800C9D907 /* Misc */,
 				4903808A24D61DCA00F289BC /* Assets.xcassets */,
 				4903808F24D61DCA00F289BC /* Info.plist */,
 				4903808C24D61DCA00F289BC /* Preview Content */,
@@ -134,6 +140,22 @@
 				490380A524D61DCA00F289BC /* Info.plist */,
 			);
 			path = MultiRAWUITests;
+			sourceTree = "<group>";
+		};
+		4974069324D74C6800C9D907 /* Misc */ = {
+			isa = PBXGroup;
+			children = (
+				4974069124D71BEB00C9D907 /* Utils.swift */,
+			);
+			path = Misc;
+			sourceTree = "<group>";
+		};
+		4974069424D74C7A00C9D907 /* Capture */ = {
+			isa = PBXGroup;
+			children = (
+				490380B324D6357B00F289BC /* PreviewView.swift */,
+			);
+			path = Capture;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -265,10 +287,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				490380B224D61DEC00F289BC /* Capture.swift in Sources */,
+				4974069024D6724300C9D907 /* Review.swift in Sources */,
+				490380B224D61DEC00F289BC /* CaptureController.swift in Sources */,
 				4903808924D61DC900F289BC /* CaptureView.swift in Sources */,
-				490380B424D6357B00F289BC /* Preview.swift in Sources */,
+				490380B424D6357B00F289BC /* PreviewView.swift in Sources */,
 				4903808724D61DC900F289BC /* MultiRAWApp.swift in Sources */,
+				4974069224D71BEB00C9D907 /* Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -470,7 +494,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = DDE4G723AJ;
+				DEVELOPMENT_TEAM = 6H6GQ2FPBM;
 				INFOPLIST_FILE = MultiRAWTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -492,7 +516,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = DDE4G723AJ;
+				DEVELOPMENT_TEAM = 6H6GQ2FPBM;
 				INFOPLIST_FILE = MultiRAWTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -513,7 +537,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = DDE4G723AJ;
+				DEVELOPMENT_TEAM = 6H6GQ2FPBM;
 				INFOPLIST_FILE = MultiRAWUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -533,7 +557,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = DDE4G723AJ;
+				DEVELOPMENT_TEAM = 6H6GQ2FPBM;
 				INFOPLIST_FILE = MultiRAWUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

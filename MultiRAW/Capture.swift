@@ -1,10 +1,3 @@
-//
-//  Capture.swift
-//  MultiRAW
-//
-//  Created by Andrew Pouliot on 8/1/20.
-//
-
 import Foundation
 import AVFoundation
 import SwiftUI
@@ -26,7 +19,7 @@ extension FourCharCode {
 
 }
 
-class Capture: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate {
+class CaptureController: NSObject, ObservableObject, AVCapturePhotoCaptureDelegate {
 
     var running = false
     

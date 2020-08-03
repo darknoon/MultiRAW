@@ -1,16 +1,12 @@
-//
-//  Preview.swift
-//  MultiRAW
-//
-//  Created by Andrew Pouliot on 8/1/20.
-//
-
 import Foundation
 import UIKit
 import AVFoundation
 import SwiftUI
 
-class PreviewUIView: UIView {
+/**
+ This just makes it easier to add an AVCaptureVideoPreviewLayer into SwiftUI since there is no CALayerRepresentable protocol
+ */
+class _AVLayerView: UIView {
     
     var videoPreviewLayer: AVCaptureVideoPreviewLayer {
         guard let layer = layer as? AVCaptureVideoPreviewLayer else {
@@ -38,13 +34,13 @@ struct PreviewView: UIViewRepresentable {
     
     @Binding var captureSession: AVCaptureSession
 
-    func makeUIView(context: Context) -> PreviewUIView {
-        let pv = PreviewUIView()
+    func makeUIView(context: Context) -> _AVLayerView {
+        let pv = _AVLayerView()
         pv.session = captureSession
         return pv
     }
 
-    func updateUIView(_ view: PreviewUIView, context: Context) {
+    func updateUIView(_ view: _AVLayerView, context: Context) {
         view.session = captureSession
     }
 }
