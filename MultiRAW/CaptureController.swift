@@ -1,20 +1,65 @@
 import Foundation
 import AVFoundation
-import SwiftUI
 import Photos
+import Combine
+import UIKit
 
 enum CaptureError: Error {
     case noDeviceFound
     case unableToObtainVideoInput
+    case unableToPrepareRawCaptureSettings(Error)
     case unableToAddInputs
     case rawUnsupported
+    case processedPhotoWithNoCapture
+}
+
+extension CaptureError: LocalizedError {
+    public var errorDescription: String? {
+        switch self {
+        case .noDeviceFound:
+            return NSLocalizedString("No device found", comment: "Error string")
+        case .unableToAddInputs:
+            return NSLocalizedString("Unable to add inputs", comment: "Error string")
+        case .rawUnsupported:
+            return NSLocalizedString("RAW is not supported on this device", comment: "Error string")
+        case .unableToObtainVideoInput:
+            return NSLocalizedString("Unable to obtain video input", comment: "Error string")
+
+        case .unableToPrepareRawCaptureSettings(_):
+            return NSLocalizedString("Unable to prepare RAW capture settings. Capture may work regardless.", comment: "Error string")
+
+        case .processedPhotoWithNoCapture:
+            return NSLocalizedString("An internal error has occurred.", comment: "Error string")
+
+        }
+    }
+}
+
+struct CaptureImageEntry: Identifiable {
+    let id: Int64
+    var raw: AVCapturePhoto? = nil
+    var processed: AVCapturePhoto? = nil
 }
 
 struct CaptureImage {
     let id: Int64
     let expected: Int
     var previewImage: UIImage?
-    var images: [AVCapturePhoto]
+    // Length will always be expected
+    var images: [CaptureImageEntry]
+    
+    init(id: Int64, expected: Int, images: [CaptureImageEntry]? = nil, previewImage: UIImage? = nil) {
+        self.id = id
+        self.expected = expected
+        if let images = images, images.count == expected {
+            self.images = images
+        } else {
+            self.images = (0..<expected).map{
+                CaptureImageEntry(id: id << 2 + Int64($0))
+            }
+        }
+        self.previewImage = previewImage
+    }
 }
 
 extension AVCapturePhoto {
@@ -37,6 +82,9 @@ class CaptureController: NSObject, ObservableObject, AVCapturePhotoCaptureDelega
     @Published var captureSession = AVCaptureSession()
     
     @Published var recentCapture: CaptureImage?
+    
+    // Subscribe to this for errors
+    let errorStream = PassthroughSubject<Error, Never>()
 
     private let sessionQueue = DispatchQueue(label: "session queue")
 
@@ -80,7 +128,7 @@ class CaptureController: NSObject, ObservableObject, AVCapturePhotoCaptureDelega
         // Tell the photo output we want to
         photoOutput.setPreparedPhotoSettingsArray([settings]) { (ok, err) in
             if let err = err {
-                print("Was not able to prepare \(err)")
+                self.errorStream.send(CaptureError.unableToPrepareRawCaptureSettings(err))
             } else {
                 print("Was able to prepare")
             }
@@ -109,9 +157,9 @@ class CaptureController: NSObject, ObservableObject, AVCapturePhotoCaptureDelega
                                                      processedFormat: [AVVideoCodecKey: processedFormat],
                                                      bracketedSettings: bracketedStillImageSettings)
 
-//        if let previewFormat = settings.availablePreviewPhotoPixelFormatTypes.first {
-//            settings.previewPhotoFormat = [String(kCVPixelBufferPixelFormatTypeKey): previewFormat]
-//        }
+        if let previewFormat = settings.availablePreviewPhotoPixelFormatTypes.first {
+            settings.previewPhotoFormat = [String(kCVPixelBufferPixelFormatTypeKey): previewFormat]
+        }
         if let thumbnailFormat = settings.availableRawEmbeddedThumbnailPhotoCodecTypes.first {
             settings.rawEmbeddedThumbnailPhotoFormat = [AVVideoCodecKey: thumbnailFormat]
         }
@@ -144,7 +192,7 @@ class CaptureController: NSObject, ObservableObject, AVCapturePhotoCaptureDelega
     
     func photoOutput(_ output: AVCapturePhotoOutput, didCapturePhotoFor resolvedSettings: AVCaptureResolvedPhotoSettings) {
         sessionQueue.async {
-            let c = CaptureImage(id: resolvedSettings.uniqueID, expected: resolvedSettings.expectedPhotoCount, images: [])
+            let c = CaptureImage(id: resolvedSettings.uniqueID, expected: resolvedSettings.expectedPhotoCount / 2)
             self.currentCapture = c
             DispatchQueue.main.async {
                 self.recentCapture = c
@@ -155,20 +203,9 @@ class CaptureController: NSObject, ObservableObject, AVCapturePhotoCaptureDelega
     func savePhoto(capture: CaptureImage) {
         let l = PHPhotoLibrary.shared()
         l.performChanges({
-            
-            #if false
-            let expectedTypes: [PHAssetResourceType] = capture.images.enumerated().map{i, _  in
-                i == 0 ? .photo : .alternatePhoto
-            }
-            guard PHAssetCreationRequest.supportsAssetResourceTypes(expectedTypes.map{$0.rawValue as NSNumber}) else {
-                print("Can't save asset with this collection of types: \(expectedTypes)")
-                return
-            }
-            #endif
-            
-            for (i, photo) in capture.images.enumerated() {
-                if photo.isRawPhoto {
-                    if let data = photo.fileDataRepresentation() {
+            for (i, entry) in capture.images.enumerated() {
+                if let raw = entry.raw {
+                    if let data = raw.fileDataRepresentation() {
                         let createAsset = PHAssetCreationRequest.forAsset()
                         let opt = PHAssetResourceCreationOptions()
                         opt.originalFilename = "photo-exp-\(i).dng"
@@ -196,11 +233,19 @@ class CaptureController: NSObject, ObservableObject, AVCapturePhotoCaptureDelega
         self.sessionQueue.async {
             // Update current capture with this photo
             guard var currentCapture = self.currentCapture else {
-                fatalError("didFinishProcessingPhoto with no current capture")
+                self.errorStream.send(CaptureError.processedPhotoWithNoCapture)
+                return
             }
 
             var images = currentCapture.images
-            images.append(photo)
+            let i = photo.sequenceCount - 1
+            var entry = images[i]
+            if photo.isRawPhoto {
+                entry.raw = photo
+            } else {
+                entry.processed = photo
+            }
+            images[i] = entry
             currentCapture.images = images
             if let preview = photo.previewCGImageRepresentation()?.takeUnretainedValue() {
                 let orientation = photo.orientation

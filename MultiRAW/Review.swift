@@ -45,7 +45,7 @@ struct Review<T : Reviewable>: View {
         ScrollView {
             LazyVGrid(columns: columns) {
                 ForEach(image.images) { im in
-                    ReviewItem<T.RImage>(image: im)
+                    ReviewItem(image: im)
                 }
             }
         }
@@ -55,22 +55,21 @@ struct Review<T : Reviewable>: View {
 // MARK: Allow captured photo to be reviewable
 
 extension CaptureImage : Reviewable {
-    typealias RImage = AVCapturePhoto
+    typealias RImage = CaptureImageEntry
 }
 
-extension AVCapturePhoto : ReviewableImage {
-    
+extension CaptureImageEntry : ReviewableImage {
+    var metadata: [String : Any] {
+        return raw?.metadata ?? [:]
+    }
+
+    // Show processed? or orig?
     var uiImage: UIImage? {
-        guard let cgim = self.cgImageRepresentation()?.takeUnretainedValue() else { return nil }
-        return UIImage(cgImage: cgim, scale: 1.0, orientation: UIImage.Orientation.up)
+        guard let processed = processed else { return nil }
+        guard let cgim = processed.previewCGImageRepresentation()?.takeUnretainedValue() else { return nil }
+        return UIImage(cgImage: cgim, scale: 1.0, orientation: processed.orientation ?? .up)
     }
     
-}
-
-extension AVCapturePhoto: Identifiable {
-    public var id: Int {
-        return photoCount
-    }
 }
 
 // MARK: Mock photo for previews

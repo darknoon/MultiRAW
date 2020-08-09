@@ -5,10 +5,9 @@ struct CaptureView: View {
     // does the actual capture logic
     @ObservedObject var capture = CaptureController()
     
-    func showReview() {
-        showingReview = true
-    }
-    
+    @State var showingError: Bool = false
+    @State var currentError: Error? = nil
+
     @State var showingReview = false
     
     var body: some View {
@@ -22,7 +21,7 @@ struct CaptureView: View {
                 CaptureControls(capturing: $capture.capturing, recentCapture: $capture.recentCapture,
                                 capture: capture.capture,
                                 showSettings: {},
-                                showReview: showReview)
+                                showReview: {showingReview = true})
                 NavigationLink(
                     destination: HStack{
                         if let recentCapture = $capture.recentCapture.wrappedValue {
@@ -32,6 +31,13 @@ struct CaptureView: View {
                     isActive: $showingReview){
                 }
             }
+            .onReceive(capture.errorStream.receive(on: DispatchQueue.main), perform: {
+                currentError = $0
+                showingError = true
+            })
+            .alert(isPresented: $showingError, content: {
+                Alert(title: Text(String(describing: currentError)))
+            })
         }
     }
 }
@@ -40,7 +46,7 @@ struct CaptureControls: View {
     
     @Binding var capturing: Bool
     @Binding var recentCapture: CaptureImage?
-    
+        
     let capture: () -> ()
     let showSettings: () -> ()
     let showReview: () -> ()
@@ -57,12 +63,14 @@ struct CaptureControls: View {
                 }.buttonStyle(PlainButtonStyle()) // Plain style allows the image to show colors
 
             } else {
-                Button(action: showReview) {
+                Button(action: {}) {
                     Image(systemName: "photo")
                         .frame(width: 45.0, height: 45.0)
                         .imageScale(.large)
                         .background(Color.gray)
                         .cornerRadius(3.0)
+                        .disabled(true)
+
                 }
             }
             Button(action: capture) {
@@ -109,14 +117,18 @@ struct CaptureControls_Previews: PreviewProvider {
 
         CaptureControls(
             capturing: Binding.constant(false),
-            recentCapture: Binding.constant(CaptureImage(id: 123, expected: 1, previewImage: UIImage(named: "captured")!, images: [])),
+            recentCapture: Binding.constant(CaptureImage(id: 123, expected: 1, previewImage: UIImage(named: "captured")!)),
             capture: {},
             showSettings: {},
             showReview: {})
             .colorScheme(.light)
             .previewLayout(.fixed(width: 400, height: 100))
 
-        CaptureView(capture: CaptureController(), showingReview: false)
+        CaptureView(capture: CaptureController(), showingError: false, showingReview: false)
+
+        CaptureView(capture: CaptureController(),
+                    showingError: true,
+                    currentError: CaptureError.rawUnsupported)
 
     }
 }
